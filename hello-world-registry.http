@@ -1,0 +1,6 @@
+@hello_world_registry_HostAddress = http://localhost:5192
+
+GET {{hello_world_registry_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
