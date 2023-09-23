@@ -10,10 +10,17 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - uses: actions/checkout@v3
@@ -21,7 +28,13 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
+    - name: Log in to the Container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerRegistry=ghcr.io/georgboe/hello-world-registry:latest
+      run: dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerRegistry=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
