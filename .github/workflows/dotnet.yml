@@ -37,4 +37,4 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerRegistry=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      run: dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer
