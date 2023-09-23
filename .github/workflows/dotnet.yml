@@ -37,4 +37,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer
+      run: dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -p:ContainerImageName=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    # - name: Push
+    #   run: |
+    #     docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
